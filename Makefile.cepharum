@@ -1,19 +1,14 @@
 CFLAGS  := -I/usr/include/ncurses -DCURSES_LOC="<ncurses.h>" -DLOCALE -Wall -Wmissing-prototypes -Wstrict-prototypes -O2 -fomit-frame-pointer
 LDFLAGS := -lncurses
 
-all : mconf
+all : prepare mconf
 
 %.o : %.c
 	cc -c $(CFLAGS) $(LDFLAGS) $< -o $@
 
-zconf.lex.c : zconf.lex.c_shipped
-	cp $< $@
-
-zconf.hash.c : zconf.hash.c_shipped
-	cp $< $@
-
-zconf.tab.c : zconf.tab.c_shipped
-	cp $< $@
+prepare :
+	cp zconf.hash.c_shipped zconf.hash.c
+	cp zconf.lex.c_shipped zconf.lex.c
 
 mconf : lxdialog/menubox.o lxdialog/yesno.o lxdialog/textbox.o  \
 	lxdialog/inputbox.o lxdialog/util.o lxdialog/checklist.o \
